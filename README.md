@@ -29,7 +29,7 @@ No backend required - runs entirely in the browser!
 ## How to Use
 1. Simply open `index.html` in any modern browser
 2. **For patients**: Select a date, choose a doctor, pick a time slot, and enter your details
-3. **For admins**: Click "Admin Panel", login with `demo/demo123`, and manage the system
+3. **For admins**: Click "Admin Panel", login with `admin/admin123`, and manage the system
 
 ## Live Demo
 [View Live Demo](https://doctorbookingweb.netlify.app/)
