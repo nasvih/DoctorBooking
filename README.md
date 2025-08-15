@@ -1,8 +1,6 @@
 # DoctorBooking
 # Doctor Appointment Booking System
 
-![Screenshot](screenshots/patient-view.png)
-
 A complete, professional doctor appointment booking system with patient interface and admin dashboard. 
 No backend required - runs entirely in the browser!
 
