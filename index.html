@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoctorBooking.com - Professional Appointment System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #12257b;
+            --primary-light: #eef2ff;
+            --secondary: #2c097c;
+            --accent: #670c35;
+            --success: #4cc9f0;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --lighter: #ffffff;
+            --gray: #94a3b8;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f8f9fa;
+            --light: #0f172a;
+            --lighter: #1e293b;
+            --dark: #f8fafc;
+            --border: #334155;
+        }
+
+        .app-container {
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--success);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .container {
+            max-width: 1400px;
+            padding: 0 1.5rem;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--lighter);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: none;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+
+        h1, h2, h3 {
+            color: var(--dark);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        body.dark-theme h1,
+        body.dark-theme h2,
+        body.dark-theme h3 {
+            color: #f8f9fa;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.025em;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            padding: 0.75rem 1.75rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 0.9375rem;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-danger:hover {
+            background-color: #d1146a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .time-slots-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-slot-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        body.dark-theme .time-slot-btn {
+            background-color: #1e293b;
+            color: #f8f9fa;
+            border-color: #334155;
+        }
+
+        .time-slot-btn:hover:not(.booked) {
+            background-color: var(--primary-light);
+        }
+
+        body.dark-theme .time-slot-btn:hover:not(.booked) {
+            background-color: #2d3a52;
+        }
+
+        .time-slot-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .time-slot-btn.booked {
+            background-color: #f8f9fa;
+            color: var(--gray);
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        body.dark-theme .time-slot-btn.booked {
+            background-color: #2d3748;
+            color: #718096;
+        }
+
+        .tab-content {
+            padding: 1.5rem 0;
+        }
+
+        .nav-tabs .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            border: none;
+            border-bottom: 3px solid transparent;
+            padding: 0.75rem 1.5rem;
+        }
+
+        body.dark-theme .nav-tabs .nav-link {
+            color: #cbd5e1;
+        }
+
+        .nav-tabs .nav-link.active {
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background: transparent;
+        }
+
+        .form-control {
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            font-size: 0.9375rem;
+        }
+
+        body.dark-theme .form-control {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            display: block;
+        }
+
+        body.dark-theme .form-label {
+            color: #cbd5e1;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .empty-state h4 {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-theme .empty-state h4 {
+            color: #f8f9fa;
+        }
+
+        .doctor-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            background: white;
+            transition: var(--transition);
+        }
+
+        body.dark-theme .doctor-card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .doctor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            border: 2px solid var(--primary-light);
+        }
+
+        .doctor-info {
+            flex: 1;
+        }
+
+        .doctor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .doctor-specialty {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .booking-summary {
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        body.dark-theme .booking-summary {
+            background: rgba(18, 37, 123, 0.2);
+        }
+
+        .alert {
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--lighter);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        body.dark-theme .theme-toggle {
+            background-color: #1e293b;
+            color: #f8f9fa;
+            border-color: #334155;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%);
+            border-radius: var(--radius);
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        body.dark-theme .hero {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.15) 0%, rgba(58, 12, 163, 0.15) 100%);
+        }
+        
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--radius);
+            background: white;
+            transition: var(--transition);
+        }
+
+        body.dark-theme .feature-card {
+            background-color: #1e293b;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        body.dark-theme .stat-card {
+            background-color: #1e293b;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--dark);
+        }
+
+        body.dark-theme .stat-label {
+            color: #cbd5e1;
+        }
+
+        .table {
+            color: var(--dark);
+            background-color: var(--lighter);
+        }
+
+        body.dark-theme .table {
+            color: #f8f9fa;
+            background-color: #1e293b;
+        }
+
+        body.dark-theme .table th,
+        body.dark-theme .table td {
+            border-color: #334155;
+        }
+
+        @media (max-width: 768px) {
+            .time-slots-container {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            
+            .header .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav {
+                justify-content: center;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>DoctorBooking.com</span>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="patientLink">Patient Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="adminLink">Admin Panel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" id="homeLink">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home/Landing Section -->
+    <div id="homeApp" class="app-container">
+        <div class="container">
+            <div class="hero">
+                <h1>Book Your Doctor Appointments Online</h1>
+                <p class="lead mb-4">Find the right specialist, choose your preferred time, and book instantly</p>
+                <button class="btn btn-primary btn-lg" id="startBookingBtn">
+                    <i class="fas fa-calendar-check me-2"></i>Book Appointment Now
+                </button>
+            </div>
+            
+            <div class="text-center mb-5">
+                <h2>Why Choose DoctorBooking.com?</h2>
+                <p class="text-muted">The easiest way to manage your healthcare appointments</p>
+            </div>
+            
+            <div class="row mb-5">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>24/7 Booking</h3>
+                        <p>Book appointments anytime, anywhere with our easy-to-use platform</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-user-md"></i>
+                        <h3>Top Specialists</h3>
+                        <p>Access to hundreds of qualified doctors across all specialties</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-bell"></i>
+                        <h3>Smart Reminders</h3>
+                        <p>Get automatic reminders so you never miss an appointment</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-5">
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-number">15,000+</div>
+                        <div class="stat-label">Patients Served</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Doctors</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-number">99%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Booking Section -->
+    <div id="patientApp" class="app-container">
+        <div class="container">
+            <h1>Book Your Doctor Appointment</h1>
+            
+            <div class="card">
+                <div class="card-header">Step 1: Select Date</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="bookingDate" class="form-label">Choose Appointment Date</label>
+                                <input type="date" class="form-control" id="bookingDate" min="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" id="checkAvailabilityBtn">
+                                <i class="fas fa-calendar-check"></i> Check Availability
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="doctorSelectionCard" style="display: none;">
+                <div class="card-header">Step 2: Select Doctor</div>
+                <div class="card-body">
+                    <div id="doctorsList"></div>
+                </div>
+            </div>
+
+            <div class="card" id="timeSelectionCard" style="display: none;">
+                <div class="card-header">Step 3: Select Time Slot</div>
+                <div class="card-body">
+                    <div id="timeSlotsContainer"></div>
+                </div>
+            </div>
+
+            <div class="card" id="patientDetailsCard" style="display: none;">
+                <div class="card-header">Step 4: Patient Information</div>
+                <div class="card-body">
+                    <div class="booking-summary mb-4">
+                        <h5>Appointment Summary</h5>
+                        <p id="appointmentDetails"></p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="patientName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="patientName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="patientPhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="patientPhone" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="patientNotes" class="form-label">Notes (optional)</label>
+                            <textarea class="form-control" id="patientNotes" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-primary" id="confirmBookingBtn">
+                            <i class="fas fa-check-circle"></i> Confirm Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-success" id="bookingSuccess" style="display: none;">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>Booking Confirmed!</strong> Your appointment has been booked successfully.
+                <div id="confirmationDetails" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Section -->
+    <div id="adminApp" class="app-container">
+        <div class="container">
+            <div class="text-end mb-4">
+                <button id="logoutBtn" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+            <h1>Admin Dashboard</h1>
+
+            <ul class="nav nav-tabs" id="adminTabs">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#manageDoctors">Manage Doctors</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#manageSchedule">Manage Schedule</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#viewBookings">View Bookings</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#systemStats">System Stats</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="manageDoctors">
+                    <div class="card">
+                        <div class="card-header">Add New Doctor</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="doctorName" class="form-label">Doctor Name</label>
+                                    <input type="text" class="form-control" id="doctorName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="doctorSpecialization" class="form-label">Specialization</label>
+                                    <input type="text" class="form-control" id="doctorSpecialization" required>
+                                </div>
+                            </div>
+                            <button id="addDoctorBtn" class="btn btn-primary">
+                                <i class="fas fa-plus-circle"></i> Add Doctor
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Current Doctors</div>
+                        <div class="card-body">
+                            <div id="doctorsTable"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="manageSchedule">
+                    <div class="card">
+                        <div class="card-header">Add Doctor Schedule</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="scheduleDate" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="scheduleDate" min="" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="scheduleDoctor" class="form-label">Doctor</label>
+                                    <select class="form-select" id="scheduleDoctor" required></select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="timeSlotsCount" class="form-label">Time Slots</label>
+                                    <input type="number" class="form-control" id="timeSlotsCount" value="50" min="1" required>
+                                </div>
+                            </div>
+                            <button id="addScheduleBtn" class="btn btn-primary">
+                                <i class="fas fa-calendar-plus"></i> Add Schedule
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Current Schedules</div>
+                        <div class="card-body">
+                            <div id="schedulesTable"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="viewBookings">
+                    <div class="card">
+                        <div class="card-header">All Bookings</div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="filterDate" class="form-label">Filter by Date</label>
+                                    <input type="date" class="form-control" id="filterDate">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="filterDoctor" class="form-label">Filter by Doctor</label>
+                                    <select class="form-select" id="filterDoctor">
+                                        <option value="">All Doctors</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="bookingsTable"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="systemStats">
+                    <div class="card">
+                        <div class="card-header">System Statistics</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="totalDoctors">0</div>
+                                        <div class="stat-label">Total Doctors</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="totalBookings">0</div>
+                                        <div class="stat-label">Total Bookings</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="totalSchedules">0</div>
+                                        <div class="stat-label">Schedules</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="totalPatients">0</div>
+                                        <div class="stat-label">Patients</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h4>Recent Activity</h4>
+                                <div id="recentActivity" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <div id="loginApp" class="app-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card mt-5">
+                        <div class="card-header text-center">
+                            <h3 class="mb-0">Admin Login</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <button id="loginBtn" class="btn btn-primary w-100">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h4 class="text-white">DoctorBooking.com</h4>
+                    <p class="text-white-50">The easiest way to book doctor appointments online. Serving thousands of patients daily.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-white">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50">Home</a></li>
+                        <li><a href="#" class="text-white-50">Book Appointment</a></li>
+                        <li><a href="#" class="text-white-50">Find a Doctor</a></li>
+                        <li><a href="#" class="text-white-50">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-white">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="text-white-50"><i class="fas fa-map-marker-alt me-2"></i> 123 Medical Center, New York</li>
+                        <li class="text-white-50"><i class="fas fa-phone me-2"></i> (123) 456-7890</li>
+                        <li class="text-white-50"><i class="fas fa-envelope me-2"></i> info@doctorbooking.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-white-50 mt-4">
+                <p>&copy; 2023 DoctorBooking.com. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initial data for demo
+        const initialDoctors = [
+            { id: 1, name: "Dr. Sarah Johnson", specialization: "Cardiology" },
+            { id: 2, name: "Dr. Michael Chen", specialization: "Pediatrics" },
+            { id: 3, name: "Dr. Emily Rodriguez", specialization: "Dermatology" },
+            { id: 4, name: "Dr. Robert Williams", specialization: "Orthopedics" },
+            { id: 5, name: "Dr. Jennifer Lee", specialization: "Neurology" }
+        ];
+
+        const initialSchedules = [
+            { 
+                id: 1, 
+                date: new Date().toISOString().split('T')[0], 
+                doctorId: 1,
+                slotsCount: 50,
+                bookedSlots: 12
+            },
+            { 
+                id: 2, 
+                date: new Date(Date.now() + 86400000).toISOString().split('T')[0], 
+                doctorId: 2,
+                slotsCount: 50,
+                bookedSlots: 8
+            },
+            { 
+                id: 3, 
+                date: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0], 
+                doctorId: 3,
+                slotsCount: 40,
+                bookedSlots: 5
+            }
+        ];
+
+        const initialBookings = [
+            {
+                id: 1,
+                date: new Date().toISOString().split('T')[0],
+                doctorId: 1,
+                time: "10:30",
+                patientName: "John Smith",
+                patientPhone: "555-1234",
+                notes: "Annual checkup"
+            },
+            {
+                id: 2,
+                date: new Date().toISOString().split('T')[0],
+                doctorId: 1,
+                time: "11:00",
+                patientName: "Emma Wilson",
+                patientPhone: "555-5678",
+                notes: "Follow-up appointment"
+            },
+            {
+                id: 3,
+                date: new Date().toISOString().split('T')[0],
+                doctorId: 2,
+                time: "14:00",
+                patientName: "David Brown",
+                patientPhone: "555-9012",
+                notes: "Pediatric consultation"
+            }
+        ];
+
+        // State management
+        let doctors = JSON.parse(localStorage.getItem('doctors')) || initialDoctors;
+        let schedules = JSON.parse(localStorage.getItem('schedules')) || initialSchedules;
+        let bookings = JSON.parse(localStorage.getItem('bookings')) || initialBookings;
+        let currentState = 'home';
+        let selectedDate = null;
+        let selectedDoctor = null;
+        let selectedSlot = null;
+        let availableDoctors = [];
+        let availableSlots = [];
+
+        // DOM Elements
+        const homeApp = document.getElementById('homeApp');
+        const patientApp = document.getElementById('patientApp');
+        const adminApp = document.getElementById('adminApp');
+        const loginApp = document.getElementById('loginApp');
+        const homeLink = document.getElementById('homeLink');
+        const patientLink = document.getElementById('patientLink');
+        const adminLink = document.getElementById('adminLink');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        const startBookingBtn = document.getElementById('startBookingBtn');
+
+        // Initialize
+        function init() {
+            // Set min date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').min = today;
+            document.getElementById('scheduleDate').min = today;
+            document.getElementById('filterDate').min = today;
+            
+            // Show home app by default
+            showHomeApp();
+            
+            // Add event listeners
+            homeLink.addEventListener('click', showHomeApp);
+            patientLink.addEventListener('click', showPatientApp);
+            adminLink.addEventListener('click', showAdminApp);
+            logoutBtn.addEventListener('click', logout);
+            loginBtn.addEventListener('click', login);
+            themeToggle.addEventListener('click', toggleTheme);
+            startBookingBtn.addEventListener('click', showPatientApp);
+            
+            // Patient booking event listeners
+            document.getElementById('checkAvailabilityBtn').addEventListener('click', checkAvailability);
+            document.getElementById('confirmBookingBtn').addEventListener('click', confirmBooking);
+            
+            // Admin event listeners
+            document.getElementById('addDoctorBtn').addEventListener('click', addDoctor);
+            document.getElementById('addScheduleBtn').addEventListener('click', addSchedule);
+            document.getElementById('filterDate').addEventListener('change', filterBookings);
+            document.getElementById('filterDoctor').addEventListener('change', filterBookings);
+        }
+
+        // Show home page
+        function showHomeApp() {
+            homeApp.style.display = 'block';
+            patientApp.style.display = 'none';
+            adminApp.style.display = 'none';
+            loginApp.style.display = 'none';
+            homeLink.classList.add('active');
+            patientLink.classList.remove('active');
+            adminLink.classList.remove('active');
+            currentState = 'home';
+        }
+
+        // Show patient booking app
+        function showPatientApp() {
+            patientApp.style.display = 'block';
+            homeApp.style.display = 'none';
+            adminApp.style.display = 'none';
+            loginApp.style.display = 'none';
+            homeLink.classList.remove('active');
+            patientLink.classList.add('active');
+            adminLink.classList.remove('active');
+            currentState = 'patient';
+            
+            // Reset booking state
+            resetBookingState();
+        }
+
+        // Reset booking state
+        function resetBookingState() {
+            selectedDate = null;
+            selectedDoctor = null;
+            selectedSlot = null;
+            document.getElementById('bookingDate').value = '';
+            document.getElementById('doctorSelectionCard').style.display = 'none';
+            document.getElementById('timeSelectionCard').style.display = 'none';
+            document.getElementById('patientDetailsCard').style.display = 'none';
+            document.getElementById('bookingSuccess').style.display = 'none';
+        }
+
+        // Show admin panel
+        function showAdminApp() {
+            // Check if user is logged in
+            if (!isLoggedIn()) {
+                showLogin();
+                return;
+            }
+            
+            homeApp.style.display = 'none';
+            patientApp.style.display = 'none';
+            adminApp.style.display = 'block';
+            loginApp.style.display = 'none';
+            homeLink.classList.remove('active');
+            patientLink.classList.remove('active');
+            adminLink.classList.add('active');
+            currentState = 'admin';
+            
+            // Load admin data
+            loadDoctors();
+            loadSchedules();
+            loadBookings();
+            loadStats();
+        }
+
+        // Show login screen
+        function showLogin() {
+            homeApp.style.display = 'none';
+            patientApp.style.display = 'none';
+            adminApp.style.display = 'none';
+            loginApp.style.display = 'block';
+            homeLink.classList.remove('active');
+            patientLink.classList.remove('active');
+            adminLink.classList.remove('active');
+            currentState = 'login';
+        }
+
+        // Login function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // For demo purposes - in a real app, this would be verified on the server
+            if (username === 'admin' && password === 'admin123') {
+                localStorage.setItem('isLoggedIn', 'true');
+                showAdminApp();
+            } else {
+                alert('Invalid credentials. Use username: admin, password: admin123');
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            showHomeApp();
+        }
+
+        // Check if user is logged in
+        function isLoggedIn() {
+            return localStorage.getItem('isLoggedIn') === 'true';
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // Check doctor availability for selected date
+        function checkAvailability() {
+            selectedDate = document.getElementById('bookingDate').value;
+            
+            if (!selectedDate) {
+                alert('Please select a date');
+                return;
+            }
+            
+            // Find available doctors for selected date
+            availableDoctors = [];
+            const scheduleForDate = schedules.filter(s => s.date === selectedDate);
+            
+            if (scheduleForDate.length === 0) {
+                document.getElementById('doctorSelectionCard').style.display = 'none';
+                document.getElementById('doctorsList').innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        No doctors available on the selected date. Please choose another date.
+                    </div>
+                `;
+                return;
+            }
+            
+            scheduleForDate.forEach(s => {
+                const doctor = doctors.find(d => d.id === s.doctorId);
+                if (doctor) {
+                    availableDoctors.push({
+                        ...doctor,
+                        scheduleId: s.id,
+                        availableSlots: s.slotsCount - (s.bookedSlots || 0)
+                    });
+                }
+            });
+            
+            if (availableDoctors.length === 0) {
+                document.getElementById('doctorSelectionCard').style.display = 'none';
+                document.getElementById('doctorsList').innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        No doctors available on the selected date. Please choose another date.
+                    </div>
+                `;
+                return;
+            }
+            
+            // Display available doctors
+            let doctorsHTML = '<div class="row">';
+            availableDoctors.forEach(doctor => {
+                doctorsHTML += `
+                    <div class="col-md-6 mb-3">
+                        <div class="doctor-card" data-id="${doctor.id}" data-schedule-id="${doctor.scheduleId}">
+                            <img src="https://i.pravatar.cc/100?img=${doctor.id}" class="doctor-avatar" alt="${doctor.name}">
+                            <div class="doctor-info">
+                                <div class="doctor-name">${doctor.name}</div>
+                                <div class="doctor-specialty">${doctor.specialization}</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">${doctor.availableSlots} slots available</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline select-doctor-btn">Select</button>
+                        </div>
+                    </div>
+                `;
+            });
+            doctorsHTML += '</div>';
+            
+            document.getElementById('doctorsList').innerHTML = doctorsHTML;
+            document.getElementById('doctorSelectionCard').style.display = 'block';
+            document.getElementById('timeSelectionCard').style.display = 'none';
+            document.getElementById('patientDetailsCard').style.display = 'none';
+            document.getElementById('bookingSuccess').style.display = 'none';
+            
+            // Add event listeners to select buttons
+            document.querySelectorAll('.select-doctor-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const doctorCard = this.closest('.doctor-card');
+                    selectedDoctor = doctorCard.dataset.id;
+                    const scheduleId = doctorCard.dataset.scheduleId;
+                    showTimeSlots(scheduleId);
+                });
+            });
+        }
+
+        // Show available time slots
+        function showTimeSlots(scheduleId) {
+            const schedule = schedules.find(s => s.id == scheduleId);
+            if (!schedule) return;
+            
+            // Generate time slots
+            let slotsHTML = '<div class="time-slots-container">';
+            const startHour = 9; // 9 AM
+            const endHour = 17; // 5 PM
+            const interval = (endHour - startHour) * 60 / schedule.slotsCount;
+            const bookedSlots = bookings
+                .filter(b => b.date === selectedDate && b.doctorId == selectedDoctor)
+                .map(b => b.time);
+            
+            for (let i = 0; i < schedule.slotsCount; i++) {
+                const minutes = startHour * 60 + i * interval;
+                const hours = Math.floor(minutes / 60);
+                const mins = Math.floor(minutes % 60);
+                const time = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+                const isBooked = bookedSlots.includes(time);
+                
+                slotsHTML += `
+                    <button class="time-slot-btn ${isBooked ? 'booked' : ''}" 
+                        ${isBooked ? 'disabled' : ''}
+                        data-time="${time}">
+                        ${time}
+                    </button>
+                `;
+            }
+            slotsHTML += '</div>';
+            
+            document.getElementById('timeSlotsContainer').innerHTML = slotsHTML;
+            document.getElementById('timeSelectionCard').style.display = 'block';
+            document.getElementById('patientDetailsCard').style.display = 'none';
+            document.getElementById('bookingSuccess').style.display = 'none';
+            
+            // Add event listeners to time slot buttons
+            document.querySelectorAll('.time-slot-btn:not(.booked)').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectedSlot = this.dataset.time;
+                    
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.time-slot-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    
+                    // Add active class to selected button
+                    this.classList.add('active');
+                    
+                    // Show patient details
+                    showPatientDetails();
+                });
+            });
+        }
+
+        // Show patient details form
+        function showPatientDetails() {
+            const doctor = doctors.find(d => d.id == selectedDoctor);
+            if (!doctor) return;
+            
+            document.getElementById('appointmentDetails').innerHTML = `
+                <strong>Date:</strong> ${selectedDate}<br>
+                <strong>Time:</strong> ${selectedSlot}<br>
+                <strong>Doctor:</strong> ${doctor.name} (${doctor.specialization})
+            `;
+            
+            document.getElementById('patientDetailsCard').style.display = 'block';
+        }
+
+        // Confirm booking
+        function confirmBooking() {
+            const patientName = document.getElementById('patientName').value.trim();
+            const patientPhone = document.getElementById('patientPhone').value.trim();
+            const patientNotes = document.getElementById('patientNotes').value.trim();
+            
+            if (!patientName || !patientPhone) {
+                alert('Please fill in all patient details');
+                return;
+            }
+            
+            // Create booking
+            const newBooking = {
+                id: bookings.length + 1,
+                date: selectedDate,
+                doctorId: parseInt(selectedDoctor),
+                time: selectedSlot,
+                patientName,
+                patientPhone,
+                notes: patientNotes,
+                bookedAt: new Date().toISOString()
+            };
+            
+            bookings.push(newBooking);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            
+            // Update booked slots count in schedule
+            const scheduleIndex = schedules.findIndex(s => 
+                s.date === selectedDate && s.doctorId == selectedDoctor
+            );
+            
+            if (scheduleIndex !== -1) {
+                schedules[scheduleIndex].bookedSlots = (schedules[scheduleIndex].bookedSlots || 0) + 1;
+                localStorage.setItem('schedules', JSON.stringify(schedules));
+            }
+            
+            // Show success message
+            const doctor = doctors.find(d => d.id == selectedDoctor);
+            document.getElementById('confirmationDetails').innerHTML = `
+                <div class="mt-2">
+                    <strong>Patient:</strong> ${patientName}<br>
+                    <strong>Phone:</strong> ${patientPhone}<br>
+                    <strong>Date:</strong> ${selectedDate} at ${selectedSlot}<br>
+                    <strong>Doctor:</strong> ${doctor.name} (${doctor.specialization})
+                </div>
+            `;
+            document.getElementById('bookingSuccess').style.display = 'block';
+            
+            // Scroll to success message
+            document.getElementById('bookingSuccess').scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form after delay
+            setTimeout(() => {
+                resetBookingState();
+            }, 10000);
+        }
+
+        // Admin functions
+        function addDoctor() {
+            const name = document.getElementById('doctorName').value.trim();
+            const specialization = document.getElementById('doctorSpecialization').value.trim();
+            
+            if (!name || !specialization) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const newDoctor = {
+                id: doctors.length + 1,
+                name,
+                specialization
+            };
+            
+            doctors.push(newDoctor);
+            localStorage.setItem('doctors', JSON.stringify(doctors));
+            
+            alert(`Doctor ${name} added successfully!`);
+            document.getElementById('doctorName').value = '';
+            document.getElementById('doctorSpecialization').value = '';
+            
+            loadDoctors();
+            loadStats();
+        }
+
+        function addSchedule() {
+            const date = document.getElementById('scheduleDate').value;
+            const doctorId = document.getElementById('scheduleDoctor').value;
+            const slotsCount = document.getElementById('timeSlotsCount').value;
+            
+            if (!date || !doctorId || !slotsCount) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Check if schedule already exists
+            const existingSchedule = schedules.find(s => 
+                s.date === date && s.doctorId == doctorId
+            );
+            
+            if (existingSchedule) {
+                alert('Schedule already exists for this doctor and date');
+                return;
+            }
+            
+            const newSchedule = {
+                id: schedules.length + 1,
+                date,
+                doctorId: parseInt(doctorId),
+                slotsCount: parseInt(slotsCount) || 50,
+                bookedSlots: 0
+            };
+            
+            schedules.push(newSchedule);
+            localStorage.setItem('schedules', JSON.stringify(schedules));
+            
+            alert('Schedule added successfully!');
+            document.getElementById('scheduleDate').value = '';
+            document.getElementById('timeSlotsCount').value = '50';
+            
+            loadSchedules();
+            loadStats();
+        }
+
+        function loadDoctors() {
+            // Populate doctors dropdown
+            const doctorSelect = document.getElementById('scheduleDoctor');
+            doctorSelect.innerHTML = '<option value="">Select a doctor</option>';
+            doctors.forEach(doctor => {
+                const option = document.createElement('option');
+                option.value = doctor.id;
+                option.textContent = `${doctor.name} (${doctor.specialization})`;
+                doctorSelect.appendChild(option);
+            });
+            
+            // Populate filter doctors dropdown
+            const filterDoctor = document.getElementById('filterDoctor');
+            filterDoctor.innerHTML = '<option value="">All Doctors</option>';
+            doctors.forEach(doctor => {
+                const option = document.createElement('option');
+                option.value = doctor.id;
+                option.textContent = `${doctor.name} (${doctor.specialization})`;
+                filterDoctor.appendChild(option);
+            });
+            
+            // Populate doctors table
+            let doctorsHTML = `
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Specialization</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            if (doctors.length === 0) {
+                doctorsHTML += `
+                    <tr>
+                        <td colspan="4" class="text-center py-4">
+                            <i class="fas fa-user-md me-2"></i>
+                            No doctors found
+                        </td>
+                    </tr>
+                `;
+            } else {
+                doctors.forEach(doctor => {
+                    doctorsHTML += `
+                        <tr>
+                            <td>${doctor.id}</td>
+                            <td>${doctor.name}</td>
+                            <td>${doctor.specialization}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onclick="deleteDoctor(${doctor.id})">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            doctorsHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('doctorsTable').innerHTML = doctorsHTML;
+        }
+
+        function loadSchedules() {
+            let schedulesHTML = `
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Doctor</th>
+                            <th>Available Slots</th>
+                            <th>Booked Slots</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            if (schedules.length === 0) {
+                schedulesHTML += `
+                    <tr>
+                        <td colspan="5" class="text-center py-4">
+                            <i class="fas fa-calendar-times me-2"></i>
+                            No schedules found
+                        </td>
+                    </tr>
+                `;
+            } else {
+                schedules.forEach(schedule => {
+                    const doctor = doctors.find(d => d.id === schedule.doctorId);
+                    const doctorName = doctor ? `${doctor.name} (${doctor.specialization})` : 'Unknown Doctor';
+                    const availableSlots = schedule.slotsCount - (schedule.bookedSlots || 0);
+                    
+                    schedulesHTML += `
+                        <tr>
+                            <td>${schedule.date}</td>
+                            <td>${doctorName}</td>
+                            <td>${availableSlots}</td>
+                            <td>${schedule.bookedSlots || 0}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onclick="deleteSchedule(${schedule.id})">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            schedulesHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('schedulesTable').innerHTML = schedulesHTML;
+        }
+
+        function loadBookings(filterDate = '', filterDoctor = '') {
+            let filteredBookings = [...bookings];
+            if (filterDate) {
+                filteredBookings = filteredBookings.filter(b => b.date === filterDate);
+            }
+            if (filterDoctor) {
+                filteredBookings = filteredBookings.filter(b => b.doctorId == filterDoctor);
+            }
+            
+            let bookingsHTML = `
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Phone</th>
+                            <th>Doctor</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            if (filteredBookings.length === 0) {
+                bookingsHTML += `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <i class="fas fa-calendar-times me-2"></i>
+                            No bookings found
+                        </td>
+                    </tr>
+                `;
+            } else {
+                filteredBookings.forEach(booking => {
+                    const doctor = doctors.find(d => d.id == booking.doctorId);
+                    const doctorName = doctor ? `${doctor.name} (${doctor.specialization})` : 'Unknown Doctor';
+                    
+                    bookingsHTML += `
+                        <tr>
+                            <td>${booking.date}</td>
+                            <td>${booking.time}</td>
+                            <td>${booking.patientName}</td>
+                            <td>${booking.patientPhone}</td>
+                            <td>${doctorName}</td>
+                            <td>${booking.notes || '-'}</td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            bookingsHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('bookingsTable').innerHTML = bookingsHTML;
+        }
+        
+        function loadStats() {
+            document.getElementById('totalDoctors').textContent = doctors.length;
+            document.getElementById('totalBookings').textContent = bookings.length;
+            document.getElementById('totalSchedules').textContent = schedules.length;
+            
+            // Count unique patients
+            const uniquePhones = [...new Set(bookings.map(b => b.patientPhone))];
+            document.getElementById('totalPatients').textContent = uniquePhones.length;
+            
+            // Recent activity
+            const recentBookings = [...bookings].sort((a, b) => 
+                new Date(b.bookedAt) - new Date(a.bookedAt)).slice(0, 5);
+            
+            let activityHTML = '';
+            if (recentBookings.length === 0) {
+                activityHTML = '<p class="text-muted">No recent activity</p>';
+            } else {
+                recentBookings.forEach(booking => {
+                    const doctor = doctors.find(d => d.id == booking.doctorId);
+                    const doctorName = doctor ? doctor.name : 'Unknown Doctor';
+                    
+                    activityHTML += `
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-calendar-check text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mt-0 mb-1">${booking.patientName} booked with ${doctorName}</h6>
+                                <p class="mb-0">${booking.date} at ${booking.time}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            document.getElementById('recentActivity').innerHTML = activityHTML;
+        }
+
+        function filterBookings() {
+            const filterDate = document.getElementById('filterDate').value;
+            const filterDoctor = document.getElementById('filterDoctor').value;
+            loadBookings(filterDate, filterDoctor);
+        }
+
+        function deleteDoctor(id) {
+            if (confirm('Are you sure you want to delete this doctor? This will also delete all associated schedules and bookings.')) {
+                // Remove doctor
+                doctors = doctors.filter(d => d.id !== id);
+                localStorage.setItem('doctors', JSON.stringify(doctors));
+                
+                // Remove schedules for this doctor
+                schedules = schedules.filter(s => s.doctorId !== id);
+                localStorage.setItem('schedules', JSON.stringify(schedules));
+                
+                // Remove bookings for this doctor
+                bookings = bookings.filter(b => b.doctorId !== id);
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+                
+                loadDoctors();
+                loadSchedules();
+                loadBookings();
+                loadStats();
+                
+                alert('Doctor deleted successfully');
+            }
+        }
+        
+        function deleteSchedule(id) {
+            if (confirm('Are you sure you want to delete this schedule? This will also delete all associated bookings.')) {
+                // Remove schedule
+                schedules = schedules.filter(s => s.id !== id);
+                localStorage.setItem('schedules', JSON.stringify(schedules));
+                
+                // Remove bookings for this schedule
+                const schedule = schedules.find(s => s.id === id);
+                if (schedule) {
+                    bookings = bookings.filter(b => 
+                        !(b.date === schedule.date && b.doctorId === schedule.doctorId)
+                    );
+                    localStorage.setItem('bookings', JSON.stringify(bookings));
+                }
+                
+                loadSchedules();
+                loadBookings();
+                loadStats();
+                
+                alert('Schedule deleted successfully');
+            }
+        }
+
+        // Initialize the app
+        window.onload = init;
+        window.deleteDoctor = deleteDoctor;
+        window.deleteSchedule = deleteSchedule;
+    </script>
+</body>
+</html>
