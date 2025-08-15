@@ -32,7 +32,7 @@ No backend required - runs entirely in the browser!
 3. **For admins**: Click "Admin Panel", login with `demo/demo123`, and manage the system
 
 ## Live Demo
-[View Live Demo]([https://your-username.github.io/doctor-booking-system](https://doctorbookingweb.netlify.app/))
+[View Live Demo](https://doctorbookingweb.netlify.app/)
 
 
 ## Why This Project?
