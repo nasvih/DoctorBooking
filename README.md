@@ -1,4 +1,3 @@
-# DoctorBooking
 # Doctor Appointment Booking System
 
 A complete, professional doctor appointment booking system with patient interface and admin dashboard. 
